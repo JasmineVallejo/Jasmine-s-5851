@@ -39,6 +39,7 @@ public class aimShooter extends CommandBase {
     double currentAngle = shooterWrist.angle();
     double error = ta - currentAngle;
     //I have current angle - target Angle
+    // this is a test for forking
     double proportion = error * Constants.kP;
     double dt = Timer.getFPGATimestamp() - pastTime;
     pastTime = Timer.getFPGATimestamp();
