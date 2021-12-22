@@ -19,7 +19,7 @@ public class aimShooter extends CommandBase {
   
   public aimShooter(shooterWrist angle, double targetAngle) {
     shooterWrist = angle;
-    targetAngle = ta;
+    ta = targetAngle;
     addRequirements(shooterWrist);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -38,18 +38,17 @@ public class aimShooter extends CommandBase {
   public void execute() {
     double currentAngle = shooterWrist.angle();
     double error = ta - currentAngle;
+    //I have current angle - target Angle
     double proportion = error * Constants.kP;
     double dt = Timer.getFPGATimestamp() - pastTime;
     pastTime = Timer.getFPGATimestamp();
-    integral =+ (error * dt) * Constants.kI;
+    integral += (error * dt) * Constants.kI;
     double derivative = ((error - oldError)/ dt) * Constants.kD;
+    // I have old error - current error
     oldError = error;
-    double speed = proportion + integral + derivative;
+    double speed = proportion;
     shooterWrist.wristShooter(speed);
     
-    
-  
-
 
   }
 

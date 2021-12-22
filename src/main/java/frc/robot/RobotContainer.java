@@ -43,7 +43,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     JoystickButton setAngle = new JoystickButton(angel, 1);
-    setAngle.whileHeld(new aimShooter(shooterWrist, -15));
+    setAngle.whenPressed(new aimShooter(shooterWrist, 15));
   }
 
   /**
