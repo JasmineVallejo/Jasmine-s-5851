@@ -37,15 +37,12 @@ public class aimShooter extends CommandBase {
   @Override
   public void execute() {
     double currentAngle = shooterWrist.angle();
-    double error = ta - currentAngle;
-    //I have current angle - target Angle
-    // this is a test for forking
+    double error = currentAngle - ta;
     double proportion = error * Constants.kP;
     double dt = Timer.getFPGATimestamp() - pastTime;
     pastTime = Timer.getFPGATimestamp();
     integral += (error * dt) * Constants.kI;
-    double derivative = ((error - oldError)/ dt) * Constants.kD;
-    // I have old error - current error
+    double derivative = ((oldError - error)/ dt) * Constants.kD;
     oldError = error;
     double speed = proportion;
     shooterWrist.wristShooter(speed);

@@ -13,6 +13,6 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static double kP = 0.1, kI = 0.01, kD = 0;
+    public static double kP = 0.01, kI = 0, kD = 0;
     public static int angel = 0;
 }
