@@ -6,21 +6,21 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Drive;
 import frc.robot.Constants;
-import frc.robot.subsystems.shooterWrist;
 
-public class aimShooter extends CommandBase {
-  /** Creates a new aimShooter. */
-  private final shooterWrist shooterWrist;
-  double ta;
+public class autoMove extends CommandBase {
+  /** Creates a new autoMove. */
+
+  private final Drive driveSubsystem;
+  double desiredDistance;
   double pastTime;
-  double oldError;
   double integral;
-  
-  public aimShooter(shooterWrist angle, double targetAngle) {
-    shooterWrist = angle;
-    ta = targetAngle;
-    addRequirements(shooterWrist);
+  double oldError;
+  public autoMove(Drive driveSub, double targetDistance) {
+    driveSubsystem = driveSub;
+    desiredDistance = targetDistance;
+    addRequirements(driveSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -30,30 +30,32 @@ public class aimShooter extends CommandBase {
     pastTime = Timer.getFPGATimestamp();
     oldError = 0;
     integral = 0;
-
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double currentAngle = shooterWrist.angle();
-    double error = currentAngle - ta;
-    double proportion = error * Constants.kP;
+    double currentDistance = driveSubsystem.leftDistance();
+    double error = desiredDistance - currentDistance;
+    double proportion = error * Constants.autoMoveKP;
     double dt = Timer.getFPGATimestamp() - pastTime;
     pastTime = Timer.getFPGATimestamp();
-    integral += (error * dt) * Constants.kI;
-    double derivative = ((oldError - error)/ dt) * Constants.kD;
-    oldError = error;
-    double speed = proportion;
-    shooterWrist.wristShooter(speed);
-  
+    integral += (error * dt) * Constants.autoMoveKI;
+    double derivative = ((error - oldError)/dt) * Constants.autoMoveKD;
+    double speed = proportion + integral + derivative;
+    driveSubsystem.move(speed, speed);
 
+
+
+
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooterWrist.wristShooter(0);
+    driveSubsystem.move(0, 0);
   }
 
   // Returns true when the command should end.

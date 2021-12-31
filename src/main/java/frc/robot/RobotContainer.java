@@ -10,9 +10,15 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.aimShooter;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.lift;
 import frc.robot.subsystems.shooterWrist;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.subsystems.Drive;
+import frc.robot.commands.autoMove;
+import frc.robot.commands.liftCommand;
+import frc.robot.commands.rollerCommand;
+import frc.robot.subsystems.roller;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -24,6 +30,9 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final shooterWrist shooterWrist = new shooterWrist();
+  private final Drive driveSubsystem = new Drive();
+  private final roller rollerSub = new roller();
+  private final lift liftSub = new lift();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final Joystick angel = new Joystick(Constants.angel);
@@ -43,7 +52,21 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     JoystickButton setAngle = new JoystickButton(angel, 1);
-    setAngle.whenPressed(new aimShooter(shooterWrist, 15));
+    setAngle.whenPressed(new aimShooter(shooterWrist, -15));
+
+    JoystickButton move = new JoystickButton(angel, 2);
+    move.whenPressed(new autoMove(driveSubsystem, 3));
+
+    JoystickButton rollLeft = new JoystickButton(angel, 3);
+    rollLeft.whenPressed( new rollerCommand(rollerSub, -1 * Constants.rollerSpeed));
+    JoystickButton rollRight = new JoystickButton(angel, 4);
+    rollRight.whenPressed( new rollerCommand(rollerSub, 1 * Constants.rollerSpeed));
+
+    JoystickButton liftUp = new JoystickButton(angel, 5);
+    liftUp.whenPressed( new liftCommand(liftSub, 1 * Constants.liftSpeed));
+    JoystickButton liftDown = new JoystickButton(angel, 6);
+    liftDown.whenPressed( new liftCommand(liftSub, -1 *Constants.liftSpeed));
+
   }
 
   /**

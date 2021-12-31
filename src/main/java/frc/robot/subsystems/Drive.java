@@ -30,16 +30,26 @@ public class Drive extends SubsystemBase {
   public Drive() {
     leftFront.setSelectedSensorPosition(0);
     rightRear.setSelectedSensorPosition(0);
+    rightRear.setSensorPhase(true);
 
 
 
 
   }
-
+double encoderToFeet;
+double rightEncoderToFeet;
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     double leftTraveled = leftFront.getSelectedSensorPosition();
-    double encoderToFeet ;
+    encoderToFeet = leftTraveled * ((Math.PI*6)/49152);
+    double rightTraveled = rightRear.getSelectedSensorPosition();
+    rightEncoderToFeet = rightTraveled * ((Math.PI*6)/49152);
+  }
+  public double leftDistance(){
+    return encoderToFeet;
+  }
+  public double rightDistance(){
+    return rightEncoderToFeet;
   }
 }
