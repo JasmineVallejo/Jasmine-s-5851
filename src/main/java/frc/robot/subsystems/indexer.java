@@ -4,19 +4,18 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
-public class intake extends SubsystemBase {
-  Victor intake = new Victor(5);
-  /** Creates a new intake. */
-  public intake() {}
 
-  public void moveIntake(double speed){
-    intake.set(speed);
+public class indexer extends SubsystemBase {
+  WPI_VictorSPX indexer = new WPI_VictorSPX(17);
+  /** Creates a new indexer. */
+  public indexer() {}
+
+  public void moveIndexer(double speed){
+    indexer.set(speed);
   }
-
-  
 
   @Override
   public void periodic() {

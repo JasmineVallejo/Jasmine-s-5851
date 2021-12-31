@@ -42,7 +42,7 @@ public class aimShooter extends CommandBase {
     double dt = Timer.getFPGATimestamp() - pastTime;
     pastTime = Timer.getFPGATimestamp();
     integral += (error * dt) * Constants.kI;
-    double derivative = ((oldError - error)/ dt) * Constants.kD;
+    //double derivative = ((oldError - error)/ dt) * Constants.kD;
     oldError = error;
     double speed = proportion;
     shooterWrist.wristShooter(speed);

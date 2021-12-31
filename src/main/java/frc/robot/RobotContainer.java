@@ -19,6 +19,12 @@ import frc.robot.commands.autoMove;
 import frc.robot.commands.liftCommand;
 import frc.robot.commands.rollerCommand;
 import frc.robot.subsystems.roller;
+import frc.robot.commands.intakeCommand;
+import frc.robot.subsystems.intake;
+import frc.robot.subsystems.indexer;
+import frc.robot.commands.indexerCommand;
+import frc.robot.subsystems.shooter;
+import frc.robot.commands.shooterCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -33,6 +39,9 @@ public class RobotContainer {
   private final Drive driveSubsystem = new Drive();
   private final roller rollerSub = new roller();
   private final lift liftSub = new lift();
+  private final intake intakeSub = new intake();
+  private final indexer indexerSub = new indexer();
+  private final shooter shooterSub = new shooter();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final Joystick angel = new Joystick(Constants.angel);
@@ -65,7 +74,21 @@ public class RobotContainer {
     JoystickButton liftUp = new JoystickButton(angel, 5);
     liftUp.whenPressed( new liftCommand(liftSub, 1 * Constants.liftSpeed));
     JoystickButton liftDown = new JoystickButton(angel, 6);
-    liftDown.whenPressed( new liftCommand(liftSub, -1 *Constants.liftSpeed));
+    liftDown.whenPressed( new liftCommand(liftSub, -1 * Constants.liftSpeed));
+
+    JoystickButton intakeIn = new JoystickButton(angel, 7);
+    intakeIn.whenPressed( new intakeCommand(intakeSub, 1 * Constants.intakeSpeed));
+    JoystickButton intakeOut = new JoystickButton(angel, 8);
+    intakeOut.whenPressed(new intakeCommand(intakeSub, -1 * Constants.intakeSpeed));
+
+    JoystickButton indexerIn = new JoystickButton(angel, 9);
+    indexerIn.whenPressed( new indexerCommand(indexerSub, 1 * Constants.indexerSpeed));
+    JoystickButton indexerOut = new JoystickButton(angel, 10);
+    indexerOut.whenPressed( new indexerCommand(indexerSub, -1 * Constants.indexerSpeed));
+
+    JoystickButton shoot = new JoystickButton(angel, 11);
+    shoot.whenPressed( new shooterCommand (shooterSub, 1 * Constants.shooterSpeed));
+
 
   }
 

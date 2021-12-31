@@ -4,19 +4,20 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.Spark;
 
-public class intake extends SubsystemBase {
-  Victor intake = new Victor(5);
-  /** Creates a new intake. */
-  public intake() {}
 
-  public void moveIntake(double speed){
-    intake.set(speed);
+public class shooter extends SubsystemBase {
+  Spark motor1 = new Spark(19);
+  Spark motor2 = new Spark(4);
+  /** Creates a new shooter. */
+  public shooter() {}
+
+  public void shoot(double speed){
+    motor1.set(speed);
+    motor2.set(speed * -1);
   }
-
-  
 
   @Override
   public void periodic() {
