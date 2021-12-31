@@ -14,6 +14,7 @@ package frc.robot;
  */
 public final class Constants {
     public static double kP = 0.01, kI = 0, kD = 0, autoMoveKP = 0, autoMoveKI = 0, 
-    autoMoveKD = 0, rollerSpeed = 0.5, liftSpeed = 0.5, intakeSpeed = 0.5, indexerSpeed = 0.5, shooterSpeed;
+    autoMoveKD = 0, rollerSpeed = 0.5, liftSpeed = 0.5, intakeSpeed = 0.5, indexerSpeed = 0.5, shooterSpeed = 0.5;
+    
     public static int angel = 0;
 }
