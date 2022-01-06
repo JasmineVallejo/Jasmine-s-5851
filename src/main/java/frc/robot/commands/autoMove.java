@@ -51,8 +51,9 @@ public class autoMove extends CommandBase {
     SmartDashboard.putNumber("speed", speed);
     SmartDashboard.putNumber("right distance", driveSubsystem.rightDistance());
     SmartDashboard.putNumber("left distnance", driveSubsystem.leftDistance());
-  
-
+    SmartDashboard.putNumber("gyro", driveSubsystem.gyroYaw());
+    SmartDashboard.putNumber("gyroroll", driveSubsystem.gyroRoll());
+    SmartDashboard.putNumber("pitch", driveSubsystem.gyroPitch());
 
 
 
