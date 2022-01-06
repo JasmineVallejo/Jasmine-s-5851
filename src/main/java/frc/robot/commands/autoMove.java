@@ -4,7 +4,9 @@
 
 package frc.robot.commands;
 
+
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drive;
 import frc.robot.Constants;
@@ -36,8 +38,8 @@ public class autoMove extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double currentDistance = driveSubsystem.leftDistance();
-    double error = desiredDistance - currentDistance;
+    double currentDistance = driveSubsystem.rightDistance();
+    double error = currentDistance - desiredDistance;
     double proportion = error * Constants.autoMoveKP;
     double dt = Timer.getFPGATimestamp() - pastTime;
     pastTime = Timer.getFPGATimestamp();
@@ -45,7 +47,13 @@ public class autoMove extends CommandBase {
     double derivative = ((error - oldError)/dt) * Constants.autoMoveKD;
     double speed = proportion + integral + derivative;
     driveSubsystem.move(speed, speed);
-
+    SmartDashboard.putNumber("Error", error);
+    SmartDashboard.putNumber("speed", speed);
+    SmartDashboard.putNumber("right distance", driveSubsystem.rightDistance());
+    SmartDashboard.putNumber("left distnance", driveSubsystem.leftDistance());
+    SmartDashboard.putNumber("gyro", driveSubsystem.gyroYaw());
+    SmartDashboard.putNumber("gyroroll", driveSubsystem.gyroRoll());
+    SmartDashboard.putNumber("pitch", driveSubsystem.gyroPitch());
 
 
 
