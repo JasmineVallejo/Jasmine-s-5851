@@ -28,9 +28,10 @@ public class Drive extends SubsystemBase {
   }
 /** Creates a new Drive. */
   public Drive() {
-    leftFront.setSelectedSensorPosition(0);
     rightRear.setSelectedSensorPosition(0);
+    leftFront.setSelectedSensorPosition(0);
     rightRear.setSensorPhase(true);
+    leftFront.setSensorPhase(false);
 
 
 
