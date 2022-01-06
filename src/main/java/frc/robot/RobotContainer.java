@@ -7,12 +7,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.aimShooter;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.lift;
 import frc.robot.subsystems.shooterWrist;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.Drive;
 import frc.robot.commands.autoMove;
@@ -26,15 +26,8 @@ import frc.robot.commands.indexerCommand;
 import frc.robot.subsystems.shooter;
 import frc.robot.commands.shooterCommand;
 
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and button mappings) should be declared here.
- */
+
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final shooterWrist shooterWrist = new shooterWrist();
   private final Drive driveSubsystem = new Drive();
   private final roller rollerSub = new roller();
@@ -42,29 +35,39 @@ public class RobotContainer {
   private final intake intakeSub = new intake();
   private final indexer indexerSub = new indexer();
   private final shooter shooterSub = new shooter();
+  /**
+   * Alright so instead of making the objects for the commands later 
+   * "rollRight.whenPressed( new rollerCommand(rollerSub, 1 * Constants.rollerSpeed));"
+   * I created them below labeled as "move2" and more. So instead of doing the "new rollerCommand(.."
+   * I just put the object name like move2.
+   */ 
+  private final autoMove move2 = new autoMove(driveSubsystem, 2);
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final Joystick angel = new Joystick(Constants.angel);
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Configure the button bindings
 
+    /**The smart dashboard is that one page where we put the values 
+     * Anyways so i put a bit of code here to start putting some data on the smartdashboard, the first being 
+     * the getInstance thing. That just tells me what instances are running (like what commands are running)
+     * that way we know if our commands are even running
+     * After that i put the liftsub information on. This will just tell us whenever it is being used and
+     * and what command it is being used by
+     * I finally then put the move2 command. This tells me when its running AND it the library automatically
+     * makes a button for it. The button lets you run this command whenever you want and lets you cancel it
+     * without the need for a joystick.  
+     */
+    SmartDashboard.putData(CommandScheduler.getInstance());
+    SmartDashboard.putData(liftSub);
+    SmartDashboard.putData("some command",move2);
     configureButtonBindings();
-  }
-
-  /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
+    }
   private void configureButtonBindings() {
     JoystickButton setAngle = new JoystickButton(angel, 1);
     setAngle.whenPressed(new aimShooter(shooterWrist, -15));
 
     JoystickButton move = new JoystickButton(angel, 2);
-    move.whenPressed(new autoMove(driveSubsystem, 3));
+    move.whenPressed(move2);
 
     JoystickButton rollLeft = new JoystickButton(angel, 3);
     rollLeft.whenPressed( new rollerCommand(rollerSub, -1 * Constants.rollerSpeed));
@@ -92,13 +95,8 @@ public class RobotContainer {
 
   }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
+  
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return null;
   }
 }
